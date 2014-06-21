@@ -178,7 +178,7 @@ DrawingBoard.Board.prototype = {
 
   initUserData: function(userName, userObj) {
     this.userData[userName] = {
-      isDrawing: false,
+      isDrawing: true,
       isMouseHovering: false,
       coords: {
         current: { x: 0, y: 0 },
@@ -788,13 +788,13 @@ DrawingBoard.Board.prototype = {
       }
 
       var currentMid = this._getMidInputCoords(currentUserData.coords.old,currentUserData.coords.current);
-      if (currentUserData.isDrawing) {
+
         // TODO: use all code from setColor
         this.ctx.beginPath();
         this.ctx.moveTo(currentMid.x, currentMid.y);
         this.ctx.quadraticCurveTo(currentUserData.coords.old.x, currentUserData.coords.old.y, currentUserData.coords.oldMid.x, currentUserData.coords.oldMid.y);
         this.ctx.stroke();
-      }
+
       currentUserData.coords.oldMid = currentMid;
       currentUserData.coords.old = currentUserData.coords.current;
     }.bind(this));
