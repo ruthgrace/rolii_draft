@@ -186,7 +186,7 @@ DrawingBoard.Board.prototype = {
         oldMid: { x: 0, y: 0 },
         fill: { x: 0, y: 0 }
       },
-      lineWidth: this.ctx.lineWidth,
+      lineWidth: 5, //this.ctx.lineWidth,
       strokeStyle: this.ctx.strokeStyle,
     };
 
