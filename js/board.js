@@ -201,7 +201,7 @@ DrawingBoard.Board.prototype = {
 
 	reset: function(opts) {
 		opts = $.extend({
-			color: this.opts.color,
+			color: randomColor(),//"#0066FF",//this.opts.color,
 			size: this.opts.size,
 			webStorage: true,
 			history: true,
