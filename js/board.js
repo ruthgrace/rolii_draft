@@ -137,7 +137,7 @@ DrawingBoard.Board = function(id, opts) {
 DrawingBoard.Board.defaultOpts = {
 	controls: ['Color', 'DrawingMode', 'Size', 'Navigation'],
 	controlsPosition: "top left",
-	color: "#000000",
+	color: randomColor(), //"#000000",
 	size: 1,
 	background: "#fff",
 	eraserColor: "background",
@@ -178,7 +178,7 @@ DrawingBoard.Board.prototype = {
 
   initUserData: function(userName, userObj) {
     this.userData[userName] = {
-      isDrawing: false,
+      isDrawing: true,
       isMouseHovering: false,
       coords: {
         current: { x: 0, y: 0 },
@@ -186,7 +186,7 @@ DrawingBoard.Board.prototype = {
         oldMid: { x: 0, y: 0 },
         fill: { x: 0, y: 0 }
       },
-      lineWidth: this.ctx.lineWidth,
+      lineWidth: 5, //this.ctx.lineWidth,
       strokeStyle: this.ctx.strokeStyle,
     };
 
@@ -201,7 +201,7 @@ DrawingBoard.Board.prototype = {
 
 	reset: function(opts) {
 		opts = $.extend({
-			color: this.opts.color,
+			color: this.opts.color,//randomColor(),//"#0066FF",//this.opts.color,
 			size: this.opts.size,
 			webStorage: true,
 			history: true,
@@ -788,13 +788,13 @@ DrawingBoard.Board.prototype = {
       }
 
       var currentMid = this._getMidInputCoords(currentUserData.coords.old,currentUserData.coords.current);
-      if (currentUserData.isDrawing) {
+
         // TODO: use all code from setColor
         this.ctx.beginPath();
         this.ctx.moveTo(currentMid.x, currentMid.y);
         this.ctx.quadraticCurveTo(currentUserData.coords.old.x, currentUserData.coords.old.y, currentUserData.coords.oldMid.x, currentUserData.coords.oldMid.y);
         this.ctx.stroke();
-      }
+
       currentUserData.coords.oldMid = currentMid;
       currentUserData.coords.old = currentUserData.coords.current;
     }.bind(this));

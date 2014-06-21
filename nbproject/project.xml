@@ -3,7 +3,11 @@
     <type>org.netbeans.modules.web.clientproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/clientside-project/1">
+<<<<<<< HEAD
             <name>rolii_draft</name>
+=======
+            <name>rolli_draft</name>
+>>>>>>> 0407cdf0133234ba42f2a7cbedb7bc6211e3ab08
         </data>
     </configuration>
 </project>
