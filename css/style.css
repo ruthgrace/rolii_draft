@@ -8,7 +8,7 @@ body, html {
 }
 
 #container {
-  margin: 3em auto;
+  margin: 0em auto;
   text-align: center;
 }
 
@@ -65,7 +65,7 @@ h2 {
   position: fixed;
   bottom: 0;
   left: 100px;
-  color: #FFF;
+  color: #000;
   font-weight: 100;
 }
 
