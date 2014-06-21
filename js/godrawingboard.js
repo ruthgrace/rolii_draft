@@ -102,9 +102,7 @@ var godrawingboard = (function() {
       },
 
       function(next) {
-        var defaultBoard = new DrawingBoard.Board('simple-board', {
-          controls: false,
-          webstorage: false,
+        var defaultBoard = new DrawingBoard.Board('default-board', {
           goinstant: {
             room: roomObj,
             userKey: roomObj.self()
