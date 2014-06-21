@@ -8,24 +8,19 @@
  * Author: rammar
  */
 
+/* Define the PhysicsJS world, rolii bodies and handle attraction events. */
 Physics(function (world) {
 
-	// Get the inner window height
-    var viewWidth = window.innerHeight;
+	// window dimensions
+    var viewWidth = window.innerWidth;
     var viewHeight = window.innerHeight;
-	
-	// center of the window
-    var center = Physics.vector(viewWidth, viewHeight).mult(0.5);
+    var center = Physics.vector(viewWidth, viewHeight).mult(0.5); // center
 	
 	// bounds of the window
-    var viewportBounds = Physics.aabb(0, 0, viewWidth, viewHeight)
-        ,attractor
-        ,edgeBounce
-        ,renderer
-        ;
+    var viewportBounds = Physics.aabb(0, 0, viewWidth, viewHeight);
 
     // create a PhysicsJS renderer
-    renderer = Physics.renderer('canvas', {
+    var renderer = Physics.renderer('canvas', {
         el: 'viewport',
         width: viewWidth,
         height: viewHeight
@@ -33,35 +28,37 @@ Physics(function (world) {
 
     // add the renderer
     world.add(renderer);
+	
     // render on each step
     world.on('step', function () {
         world.render();
     });
 
     // attract bodies to a point
-    attractor = Physics.behavior('attractor', {
-        pos: center
-        ,strength: .1
-        ,order: 1
+    var attractor = Physics.behavior('attractor', {
+        pos: center,
+        strength: 10		
+        //,order: 2 // use 2 for newtonian gravity - this is the default value
     });
 
     // constrain objects to these bounds
-    edgeBounce = Physics.behavior('edge-collision-detection', {
+    var edgeBounce = Physics.behavior('edge-collision-detection', {
         aabb: viewportBounds
         ,restitution: 0.2
         ,cof: 0.8
     });
 
-    // resize events
+    // window resize events
     window.addEventListener('resize', function () {
 
         viewWidth = window.innerWidth;
         viewHeight = window.innerHeight;
-
+		
         renderer.el.width = viewWidth;
         renderer.el.height = viewHeight;
 
         viewportBounds = Physics.aabb(0, 0, viewWidth, viewHeight);
+		
         // update the boundaries
         edgeBounce.setAABB(viewportBounds);
 
@@ -71,45 +68,33 @@ Physics(function (world) {
     renderer.el.addEventListener('mousemove', function( e ){
         attractor.position({ x: e.pageX, y: e.pageY });
     });
-
-    // some fun colors
-    var colors = [
-        '#b58900',
-        '#cb4b16',
-        '#dc322f',
-        '#d33682',
-        '#6c71c4',
-        '#268bd2',
-        '#2aa198',
-        '#859900'
-    ];
-    // create some bodies
-    var l = 15;
+    
+	// create the rolii body or bodies
+    var numberOfRolii= 40; // number of rolii bodies
     var bodies = [];
-    var v = Physics.vector(0, 300);
-    var b, r;
+	var roliiRadius= 20; // rolii has smallish pixel radius
 
-    while ( l-- ) {
-        r = (20 + Math.random()*50)|0;
-        b = Physics.body('circle', {
-            radius: r
-            ,mass: r
-            ,x: v.x + center.x
-            ,y: v.y + center.y
-            ,vx: v.perp().mult(0.0001).x
-            ,vx: v.y
-            ,styles: {
-                fillStyle: colors[ l % colors.length ]
+    while (numberOfRolii != 0) {
+        var currentBody = Physics.body('circle', {
+            radius: roliiRadius,
+			// start the rolii in random places on the screen
+            x: getRandomInt(0, viewWidth),
+            y: getRandomInt(0, viewHeight),
+            styles: {
+				// use a random color generator
+				// you can set luminosity and hue properties to get pretty colours
+                fillStyle: randomColor({ luminosity: "light" })
             }
         });
-        bodies.push(b);
-        v.perp(true)
-            .mult(10000)
-            .rotate(l / 3);
+        bodies.push(currentBody);
+		
+		--numberOfRolii;
     }
 
-    // add things to the world
+    // add all the rolii to the world at once
     world.add( bodies );
+	
+	// define the world behaviour
     world.add([
         Physics.behavior('newtonian', {
             strength: 0.005
@@ -127,6 +112,13 @@ Physics(function (world) {
 
     // start the ticker
     Physics.util.ticker.start();
+	
 });
 
-// go ahead... expand the code and play around...
+
+/* -- GENERAL HELPER FUNCTIONS -- */
+
+/* Return a random integer in a range. */
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
