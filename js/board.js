@@ -137,7 +137,7 @@ DrawingBoard.Board = function(id, opts) {
 DrawingBoard.Board.defaultOpts = {
 	controls: ['Color', 'DrawingMode', 'Size', 'Navigation'],
 	controlsPosition: "top left",
-	color: "#000000",
+	color: randomColor(), //"#000000",
 	size: 1,
 	background: "#fff",
 	eraserColor: "background",
@@ -201,7 +201,7 @@ DrawingBoard.Board.prototype = {
 
 	reset: function(opts) {
 		opts = $.extend({
-			color: randomColor(),//"#0066FF",//this.opts.color,
+			color: this.opts.color,//randomColor(),//"#0066FF",//this.opts.color,
 			size: this.opts.size,
 			webStorage: true,
 			history: true,
