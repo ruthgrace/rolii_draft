@@ -30,7 +30,6 @@ var godrawingboard = (function() {
 
   function connectToPlatform(cb) {
     var notifications;
-
     async.series([
       // connect to GoInstant platform
       // create (if needed) the room instance for the drawingboard and
@@ -102,14 +101,14 @@ var godrawingboard = (function() {
       },
 
       function(next) {
-        var defaultBoard = new DrawingBoard.Board('simple-board', {
+        var defaultBoard = new DrawingBoard.Board('default-board', {
         	controls: false,
         	webStorage: false,
           goinstant: {
             room: roomObj,
             userKey: roomObj.self()
           }
-        });
+        });1
         next();
       },
 
@@ -316,6 +315,7 @@ var godrawingboard = (function() {
 
         // set up sharing and components.
         connectToPlatform();
+
       });
     }
   }
