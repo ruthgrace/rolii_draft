@@ -30,7 +30,7 @@ Physics(function (world) {
     // constrain objects to these bounds
     var edgeBounce = Physics.behavior('edge-collision-detection', {
         aabb: viewportBounds,
-        restitution: 0.1,
+        restitution: 0.4,
         cof: 0.8
     });
 
@@ -66,21 +66,17 @@ Physics(function (world) {
     });
 
     // attract bodies to a point
-	/*
 	var attractor = Physics.behavior('attractor', {
         pos: center,
         strength: 0.1,
 		order: 1
         //,order: 2 // use 2 for newtonian gravity - this is the default value
     });
-	*/
 
     // move the attractor position to match the mouse coords
-    /*
 	renderer.el.addEventListener('mousemove', function( e ){
-        attractor.position({ x: e.pageX, y: e.pageY });
+        attractor.position({ x: e.pageX, y: e.pageY });		
     });
-	*/
     
 	// create the rolii body or bodies
     var numberOfRolii= 1; // number of rolii bodies
@@ -104,7 +100,6 @@ Physics(function (world) {
 		--numberOfRolii;
     }
 
-
 	/* HTML5 DeviceOrientatoin event returns three things:
 	 *		alpha, the direction of the device is facing according to compass
 	 *		beta, the left-right tilt angle
@@ -113,25 +108,23 @@ Physics(function (world) {
 	if (window.DeviceOrientationEvent) {
 		window.addEventListener("deviceorientation", function(eventData) {
 			var tiltLR= Math.floor(eventData.gamma);
-			var tiltFB= Math.floor(eventData.beta);	
+			var tiltFB= Math.floor(eventData.beta);
 			
-			if (tiltLR > -5 && tiltLR < -5) {
-				tiltLR= 0;
-			}
+			// convert degrees to radians before using Math.sin()
+			var tiltLRRadians= tiltLR * (Math.PI / 180) / 50;
+			var tiltFBRadians= tiltFB * (Math.PI / 180) / 50;
 			
-			var accelerateX= Math.sin(tiltLR) * (180/Math.PI) / 10000;
-			var accelerateY= Math.sin(tiltFB) * (180/Math.PI) / 10000;
+			var accelerateX= Math.sin(tiltLRRadians);
+			var accelerateY= Math.sin(tiltFBRadians);
+			
 			var accelerationVector= Physics.vector(accelerateX, accelerateY);
 			
 			
 			// apply acceleration vector to all bodies
 			for(var i= 0; i !== bodies.length; ++i) {
 				var currentBody= bodies[i];
-				currentBody.applyForce(accelerationVector);
+				currentBody.accelerate(accelerationVector);
 			}
-			
-			document.getElementById("tiltLR").innerHTML= tiltLR;
-			document.getElementById("tiltFB").innerHTML= tiltFB;
 		}, false);
 	}
 
@@ -145,8 +138,8 @@ Physics(function (world) {
             min: 10
         }),*/
         Physics.behavior('body-impulse-response'),
-        edgeBounce
-        //,attractor
+        edgeBounce,
+        attractor
     ]);
 
     // subscribe to ticker to advance the simulation
