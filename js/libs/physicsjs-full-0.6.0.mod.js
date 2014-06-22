@@ -8912,8 +8912,8 @@ Physics.renderer('canvas', function( proto ){
             }
 
             this.el.parentNode.insertBefore( layer.el, this.el );
-            layer.el.style.position = 'relative';
-            layer.el.style.zIndex = layer.options.zIndex;
+            layer.el.style.position = 'absolute';
+            layer.el.style.zIndex = 1000; // modified
             layer.el.className += ' pjs-layer-' + layer.id;
             layer.ctx = layer.el.getContext('2d');
             layer.ctx.scale( 1, 1 );

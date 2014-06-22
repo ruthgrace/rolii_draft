@@ -64,9 +64,9 @@ Physics(function (world) {
 
     // create a PhysicsJS renderer
     var renderer = Physics.renderer('canvas', {
-        el: "viewport",
+        //el: "viewport",
         width: viewWidth,
-        height: viewHeight
+        height: viewHeight,
     });
 
     // add the renderer
