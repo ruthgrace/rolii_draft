@@ -15,6 +15,18 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/* Functions to get the rolii body position information. */
+var currentRolii;
+var currentRoliiColour;
+var currentRoliiRadius= 10;
+function currentRoliiX() {
+	return currentRolii.state.pos.x;
+};
+function currentRoliiY() {
+	return currentRolii.state.pos.y;
+};
+
+
 
 /* -- Define the PhysicsJS world, rolii bodies and handle transform events. -- */
 Physics(function (world) {
@@ -73,29 +85,28 @@ Physics(function (world) {
         //,order: 2 // use 2 for newtonian gravity - this is the default value
     });
 
-    // move the attractor position to match the mouse coords
-	renderer.el.addEventListener('mousemove', function( e ){
-        attractor.position({ x: e.pageX, y: e.pageY });		
-    });
-    
 	// create the rolii body or bodies
-    var numberOfRolii= 1; // number of rolii bodies
+    var numberOfRolii= 1; // number of rolii bodies - not guaranteed to work with >1 rolii
     var bodies = [];
-	var roliiRadius= 10; // rolii has smallish pixel radius
+	var roliiRadius= currentRoliiRadius; // rolii has smallish pixel radius
 
     while (numberOfRolii !== 0) {
-        var currentBody = Physics.body('circle', {
+		// Use a random color generator. You can set luminosity and
+		// hue properties to get pretty colours.
+		currentRoliiColour= randomColor({ luminosity: "light" });
+        
+		var currentBody = Physics.body('circle', {
             radius: roliiRadius,
 			// start the rolii in random places on the screen
             x: getRandomInt(0, viewWidth),
             y: getRandomInt(0, viewHeight),
             styles: {
-				// use a random color generator
-				// you can set luminosity and hue properties to get pretty colours
-                fillStyle: randomColor({ luminosity: "light" })
+                fillStyle: currentRoliiColour
             }
         });
         bodies.push(currentBody);
+		
+		currentRolii= currentBody;
 		
 		--numberOfRolii;
     }
@@ -123,6 +134,12 @@ Physics(function (world) {
 	 * by the desktop). This is a workaround because the desktop browser thinks 
 	 * it supports device orientation events (not sure why). */
 	var orientationPresent= false;
+
+    // move the attractor position to match the mouse coords
+	renderer.el.addEventListener('mousemove', function( e ){
+        attractor.position({ x: e.pageX, y: e.pageY });
+    });
+    
 
 	/* HTML5 DeviceOrientatoin event returns three things:
 	 *		alpha, the direction of the device is facing according to compass
@@ -153,7 +170,7 @@ Physics(function (world) {
 				orientationPresent= true;
 				world.remove(noOrientationWorld);
 				world.add(yesOrientationWorld);
-			}		
+			}
 		}, false);
 	}
 
@@ -163,6 +180,5 @@ Physics(function (world) {
     });
 
     // start the ticker
-    Physics.util.ticker.start();
-	
+    Physics.util.ticker.start();	
 });
