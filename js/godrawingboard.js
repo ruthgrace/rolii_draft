@@ -124,7 +124,7 @@ var godrawingboard = (function() {
     // default slide deck to change the transitions and themes.
     var parser = document.createElement('a');
     parser.href = window.location.toString();
-
+/*
     // Create the sharing URL by adding the roomName as a query parameter to
     // the current window.location.
     if (parser.search) {
@@ -134,7 +134,7 @@ var godrawingboard = (function() {
     }
 
     // Create Share Button
-    addShareButton(parser.href);
+    addShareButton(parser.href);*/
   }
 
   function addShareButton(text) {
