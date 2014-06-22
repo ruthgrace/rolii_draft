@@ -68,7 +68,7 @@ Physics(function (world) {
     // attract bodies to a point
 	var attractor = Physics.behavior('attractor', {
         pos: center,
-        strength: 0.1,
+        strength: 0.2,
 		order: 1
         //,order: 2 // use 2 for newtonian gravity - this is the default value
     });
@@ -99,6 +99,30 @@ Physics(function (world) {
 		
 		--numberOfRolii;
     }
+	
+	// add all the rolii to the world at once
+	world.add( bodies );
+
+	// define the world behaviour
+	var noOrientationWorld= [
+        /*Physics.behavior('newtonian', {
+            strength: 0.005,
+            min: 10
+        }),*/
+        Physics.behavior('body-impulse-response'),
+        edgeBounce,
+        attractor
+    ];
+	var yesOrientationWorld= [
+		Physics.behavior('body-impulse-response'),
+		edgeBounce
+    ];
+    world.add(noOrientationWorld);
+
+	/* If either tilt axis ever exceeds 0, turn off the attractor (which is used
+	 * by the desktop). This is a workaround because the desktop browser thinks 
+	 * it supports device orientation events (not sure why). */
+	var orientationPresent= false;
 
 	/* HTML5 DeviceOrientatoin event returns three things:
 	 *		alpha, the direction of the device is facing according to compass
@@ -119,28 +143,19 @@ Physics(function (world) {
 			
 			var accelerationVector= Physics.vector(accelerateX, accelerateY);
 			
-			
 			// apply acceleration vector to all bodies
 			for(var i= 0; i !== bodies.length; ++i) {
 				var currentBody= bodies[i];
 				currentBody.accelerate(accelerationVector);
 			}
+			
+			if (!orientationPresent && (tiltLR > 0 || tiltLR < 0 || tiltFB > 0 || tiltFB < 0)) {
+				orientationPresent= true;
+				world.remove(noOrientationWorld);
+				world.add(yesOrientationWorld);
+			}		
 		}, false);
 	}
-
-    // add all the rolii to the world at once
-    world.add( bodies );
-	
-	// define the world behaviour
-    world.add([
-        /*Physics.behavior('newtonian', {
-            strength: 0.005,
-            min: 10
-        }),*/
-        Physics.behavior('body-impulse-response'),
-        edgeBounce,
-        attractor
-    ]);
 
     // subscribe to ticker to advance the simulation
     Physics.util.ticker.on(function( time ) {
