@@ -86,7 +86,7 @@ Physics(function (world) {
     });
 
 	// create the rolii body or bodies
-    var numberOfRolii= 100; // number of rolii bodies - not guaranteed to work with >1 rolii
+    var numberOfRolii= 200; // number of rolii bodies - not guaranteed to work with >1 rolii
     var bodies = [];
 	var roliiRadius= currentRoliiRadius; // rolii has smallish pixel radius
 

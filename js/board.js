@@ -120,7 +120,7 @@ DrawingBoard.Board = function(id, opts) {
     this.reset({ webStorage: false, history: true, background: true });
     this.restoreWebStorage();
     this.initDropEvents();
-    this.initDrawEvents();
+    this.initDrawEvents();	
   }.bind(this));
 
   // subscribe to events for all users
@@ -180,11 +180,11 @@ DrawingBoard.Board.prototype = {
     this.userData[userName] = {
       isDrawing: true,
       isMouseHovering: false,
-      coords: {
-        current: { x: 0, y: 0 },
-        old: { x: 0, y: 0 },
-        oldMid: { x: 0, y: 0 },
-        fill: { x: 0, y: 0 }
+	  coords: {
+        current: { x: currentRoliiX(), y: currentRoliiY() },
+        old: { x: currentRoliiX(), y: currentRoliiY() },
+        oldMid: { x: currentRoliiX(), y: currentRoliiY() }//,
+        //fill: { x: 0, y: 0 }
       },
       lineWidth: 5, //this.ctx.lineWidth,
       strokeStyle: this.ctx.strokeStyle,
@@ -757,8 +757,8 @@ DrawingBoard.Board.prototype = {
 		}, this));
 
 		if (window.requestAnimationFrame) {
-      requestAnimationFrame( $.proxy(this.draw, this) );
-    }
+		 requestAnimationFrame( $.proxy(this.draw, this) );
+		}
 	},
 
 	draw: function() {
@@ -791,8 +791,8 @@ DrawingBoard.Board.prototype = {
 
         // TODO: use all code from setColor
         this.ctx.beginPath();
-        this.ctx.moveTo(currentMid.x, currentMid.y);
-        this.ctx.quadraticCurveTo(currentUserData.coords.old.x, currentUserData.coords.old.y, currentUserData.coords.oldMid.x, currentUserData.coords.oldMid.y);
+		this.ctx.moveTo(currentMid.x, currentMid.y);
+        //this.ctx.quadraticCurveTo(currentUserData.coords.old.x, currentUserData.coords.old.y, currentUserData.coords.oldMid.x, currentUserData.coords.oldMid.y);
         this.ctx.stroke();
 
       currentUserData.coords.oldMid = currentMid;
@@ -938,6 +938,12 @@ DrawingBoard.Board.prototype = {
 	},
 
 	_getInputCoords: function(e) {
+		return {
+			x: currentRoliiX(),
+			y: currentRoliiY()
+		}
+		
+		/*
 		e = e.originalEvent ? e.originalEvent : e;
 		var x, y;
 		if (e.touches && e.touches.length == 1) {
@@ -951,6 +957,7 @@ DrawingBoard.Board.prototype = {
 			x: x - this.dom.$canvas.offset().left,
 			y: y - this.dom.$canvas.offset().top
 		};
+		*/
 	},
 
 	_getMidInputCoords: function(oldCoords, coords) {

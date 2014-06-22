@@ -108,7 +108,7 @@ var godrawingboard = (function() {
             room: roomObj,
             userKey: roomObj.self()
           }
-        });1
+        });
         next();
       },
 
