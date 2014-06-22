@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Drawing board</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/drawingboard.min.css">
+		<style>
+		/*
+		* drawingboards styles: set the board dimensions you want with CSS
+		*/
+
+		.board {
+			margin: 0 auto;
+			width: 300px;
+			height: 300px;
+		}
+
+		#default-board {
+			width: 700px;
+			height: 400px;
+		}
+
+		#custom-board-2 {
+			width: 550px;
+			height: 300px;
+		}
+
+		#title-board {
+			width: 600px;
+			height: 270px;
+		}
+		/* custom board styles for the title? no problem*/
+		#title-board .drawing-board-canvas-wrapper {
+			border: none;
+			margin: 0;
+		}
+		</style>
+	</head>
+	<body>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="js/drawingboard.min.js"></script>
+		<div class="example" data-example="1">
+			<h1>The default DrawingBoard</h1>
+			<div class="board" id="default-board"></div>
+		</div>
+		<div class="example" data-example="4">
+			<h1>The simplest one</h1>
+			<div class="board" id="simple-board"></div>
+		</div>
+		
+		<script data-example="1">
+			//create the drawingboard by passing it the #id of the wanted container
+			var defaultBoard = new DrawingBoard.Board('default-board');
+		</script>
+		
+		<script data-example="4" src="js/ron_board.js"></script>
+	</body>
+</html>
