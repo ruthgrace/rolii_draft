@@ -6,34 +6,27 @@
 		<title>GoDraw</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, height=device-height">
-    <link rel="stylesheet" href="css/drawingboard.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.min.js"></script>
-    <script src="js/libs/randomColor.js"></script>
+		<link rel="stylesheet" href="css/drawingboard.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="https://cdn.goinstant.net/v1/platform.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.min.js"></script>
+		<script src="js/libs/randomColor.js"></script>
 	</head>
 	<body>
-		<noscript>JavaScript is required :(</noscript>
+		<script src="js/libs/physicsjs-full-0.6.0.mod.js"></script>
+		<script src="js/libs/randomColor.js"></script>
+		<script src="js/physics_js_orientation.js"></script>
+		
+		<!-- This must go here AFTER the PhysicsJS bit! -->
 		<div id="container">
 			<div class="example" data-example="1">
         			<div class="board" id="default-board"></div>
 			</div>
 		</div>
 		
-		<script src="js/drawingboard.js"></script>
-		<script src="js/board.js"></script>
-		<script src="js/controls/control.js"></script>
-		<script src="js/controls/color.js"></script>
-		<script src="js/controls/drawingmode.js"></script>
-		<script src="js/controls/navigation.js"></script>
-		<script src="js/controls/size.js"></script>
-		<script src="js/controls/download.js"></script>
-		<script src="js/utils.js"></script>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="js/drawingboard.min.js"></script>
 		<script src="js/godrawingboard.js"></script>
-		
-		<script src="js/libs/physicsjs-full-0.6.0.mod.js"></script>
-		<script src="js/libs/randomColor.js"></script>
-		<script src="js/physics_js_orientation.js"></script>
 	</body>
 </html>
